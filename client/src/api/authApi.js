@@ -11,9 +11,9 @@ export const getRefreshToken = async () => {
 
       const responseJson = await response.json();
       const token = jwt.decode(responseJson.data.token);
+      
       const { exp, iat, data  } = token
       const user = { ...data, token: responseJson.data.token }
-    
     return user;
 
   } catch (err) {
@@ -37,8 +37,8 @@ export const login = async (formData) => {
     const responseJson = await response.json();
     const token = jwt.decode(responseJson.data.token);
     const { exp, iat, data  } = token
-    const user = { ...data, token: responseJson.data.token}
-
+    const user = { ...data, token: responseJson.data.token }
+  
     return user;
 
   } catch (err) {

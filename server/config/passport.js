@@ -63,12 +63,15 @@ module.exports =  function(passport){
             callbackURL: '/api/auth/google/redirect'
         },
         async  (accessToken, refreshToken, profile, done)=>  {
+            const { given_name, family_name, email} = profile._json
             const newUser = {
                 googleId: profile.id,
-                email : profile.emails[0].value
+                email : email,
+                name: given_name,
+                lastName: family_name,
+                password: await User.hashPassword('random'),
             }
             try{
-                console.log(profile)
                 let user = await User.findOne({ googleId: profile.id })
                 if (user) {
                     done(null,user)

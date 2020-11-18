@@ -8,12 +8,11 @@ function PrivateRoute({
   ...props
 }) {
   const { user } = useSelector(state => state.App)
-  
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <Route {...props}
       // eslint-disable-next-line no-shadow
-      render={(props) => user.token == null
+      render={(props) => user.isLogin === false
         ? (<Redirect to="/" />)
         // eslint-disable-next-line react/jsx-props-no-spreading
         : ( <Component {...props} />)}

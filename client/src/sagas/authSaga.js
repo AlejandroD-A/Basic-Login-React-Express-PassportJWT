@@ -10,14 +10,12 @@ export function* watcherGetNewToken(){
 export function* getNewTokenSaga(){
     try{
         yield put(actions.App.setStateLoading)
-
         let user = yield call(getRefreshToken);
         yield put(actions.App.saveUser(user))
         yield put(actions.App.setStateSuccess)
 
     }catch(err){
         yield put(actions.App.setStateError)
-
     }
 }
 

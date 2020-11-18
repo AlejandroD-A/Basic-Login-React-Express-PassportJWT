@@ -10,7 +10,6 @@ import actions from "./actions";
 
 function App() {
 	const dispatch = useDispatch();
-	const random = "";
 	const state = useSelector((state) => state.App.state);
 	const isLogin = useSelector((state) => state.App.user.isLogin);
 

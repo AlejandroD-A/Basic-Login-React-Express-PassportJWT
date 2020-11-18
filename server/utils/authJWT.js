@@ -11,11 +11,11 @@ module.exports = {
     },
     generateRefreshToken :  (res, id) =>{
         refreshToken =  jwt.sign( { id: id }, process.env.JWT_REFRESH_SECRET, {
-            expiresIn: 84600
+            expiresIn: 60 * 15
         })
 
         res.cookie('refreshToken', refreshToken, {
-            expires: new Date(Date.now() + 120000),
+            expires: new Date(Date.now() + 900000),
             httpOnly: true,
         });
        
