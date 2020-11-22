@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
@@ -18,8 +18,24 @@ function Auth() {
 		email: "",
 		password: "",
 	});
+	const [showGoogle, setShowGoogle] = useState(false)
 	const [error, setError] = useState("");
 	const user = useSelector((state) => state.App.user);
+
+	useEffect(() => {
+		if(showGoogle) {
+			const googleWindow = openGoogleWindow()
+
+			const checkLogin = setInterval(()=>{
+				 if  (googleWindow.closed ) {
+					dispatch(actions.App.getNewSilentTokenSaga)
+					setShowGoogle(false)
+					clearInterval(checkLogin)
+				 }	
+			}, 1000)
+		}
+
+	}, [showGoogle])
 
 	const openGoogleWindow = () => {
 		const googleWindow = window.open(
@@ -27,9 +43,8 @@ function Auth() {
 			"_blank",
 			"toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400"
 		);
-		googleWindow.onunload = () => {
-			dispatch(actions.App.getNewSilentTokenSaga);
-		};
+		return googleWindow
+
 	};
 	const handleChange = ({ target }) => {
 		const { input } = target.dataset;
@@ -99,7 +114,7 @@ function Auth() {
 						lastName={dataForm.lastName}
 					/>
 				)}
-				<input type="button" onClick={openGoogleWindow} value="Google" />
+				<input type="button" onClick={() => setShowGoogle(true)} value="Google" />
 			</div>
 		</div>
 	);
